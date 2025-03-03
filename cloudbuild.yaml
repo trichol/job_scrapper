@@ -1,0 +1,12 @@
+steps:
+  # Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/jobscrapper-452202/selenium-app', '.']
+
+  # Push the Docker image to Google Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/jobscrapper-452202/selenium-app']
+
+  # Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    args: ['gcloud', 'run', 'deploy', 'selenium-app', '--image', 'gcr.io/jobscrapper-452202/selenium-app', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
